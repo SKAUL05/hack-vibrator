@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Vibration, Image } from 'react-native';
+import React, { useState, createContext } from 'react';
+import { View, Text, StyleSheet, Button, Vibration, Image, TextInput, Alert, Keyboard } from 'react-native';
 import { Audio } from 'expo-av';
 
+
 export default function App() {
-  const [randomNumber, setRandomNumber] = useState(null);
+  const [randomNumbers, setRandomNumber] = useState('');
+  const [showTextField, setShowTextField] = useState(false);
+  const [textInputValue, setTextInputValue] = useState('');
 
   const generateRandomNumber = () => {
     let randomNumber = '';
@@ -16,25 +19,27 @@ export default function App() {
       randomNumber += digit;
       displayNumber += (digit+1);
     }
-    setRandomNumber("");
+    setRandomNumber(displayNumber);
     // playNumberAudio(randomNumber);
     console.log("Random Number :", displayNumber);
+    setShowTextField(true);
+    setTextInputValue("")
     vibrateNumber(randomNumber);
   };
 
-  const playNumberAudio = async (number) => {
-    const soundObject = new Audio.Sound();
-    try {
-      await soundObject.loadAsync(require('./assets/sounds/numbers.mp3'));
-      await soundObject.playAsync();
-      await Audio.setAudioModeAsync({
-        playsInSilentModeIOS: true,
-        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const playNumberAudio = async (number) => {
+  //   const soundObject = new Audio.Sound();
+  //   try {
+  //     await soundObject.loadAsync(require('./assets/sounds/numbers.mp3'));
+  //     await soundObject.playAsync();
+  //     await Audio.setAudioModeAsync({
+  //       playsInSilentModeIOS: true,
+  //       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   // const duration = 200; // Duration of each individual vibration in milliseconds
   // const waitTime = 2000; // Wait time in milliseconds between each set of vibrations
@@ -63,6 +68,42 @@ export default function App() {
       delay += (vibrationCount + 2) * duration + waitTime;      }
     };
 
+    const verifyOTP = () => {
+      Keyboard.dismiss();
+      const numValue = parseInt(textInputValue, 10);
+      const checkNumber = randomNumbers;
+      console.log(randomNumbers, checkNumber);
+      const displayValue = parseInt(checkNumber, 10);
+      console.log("Display Value :", displayValue);
+      if (displayValue === numValue) {
+        Alert.alert(
+          'Success',
+          'OTP Verified',
+          [{ text: 'OK', onPress: () => setIsAlertVisible(false) }],
+          { cancelable: false }
+        )
+        // setIsAlertVisible(true);
+      } else {
+        Alert.alert(
+          'Error',
+          'Oops! Wrong Number. Try Again',
+          [{ text: 'OK', onPress: () => setIsAlertVisible(false) }],
+          { cancelable: false }
+        )
+        // setIsAlertVisible(false);
+      }
+    };
+    const handleTextInputSubmit = () => {
+      // If the input length is 4, dismiss the keyboard
+      if (textInputValue.length === 4) {
+        Keyboard.dismiss();
+      }
+    };
+    const handleTextInputBlur = () => {
+      // Dismiss the keyboard when the input loses focus (clicking outside)
+      Keyboard.dismiss();
+    };
+
 
   return (
     <View style={styles.container}>
@@ -71,16 +112,36 @@ export default function App() {
         style={styles.backgroundImage}
       />
       <View style={styles.content}>
-        <Text style={styles.title}></Text>
+        {/* <Text style={styles.title}></Text>
         {randomNumber && (
           <Text style={styles.generatedNumber}>{randomNumber}</Text>
-        )}
+        )} */}
         <Button
           title="Generate OTP"
           color="#007AFF"
           variant="outlined"
           onPress={generateRandomNumber}
         />
+         {/* Dynamically appearing text input */}
+      {showTextField && (
+        <View>
+          <TextInput
+            style={{ borderWidth: 1, borderColor: 'gray', padding: 10 }}
+            placeholder="Enter OTP"
+            onChangeText={setTextInputValue}
+            value={textInputValue}
+            onSubmitEditing={handleTextInputSubmit}
+            onBlur={handleTextInputBlur}
+            keyboardType="number-pad"
+            returnKeyType="done"
+          />
+
+          {/* Second button */}
+          <Button title="Verify OTP" onPress={verifyOTP} />
+        </View>
+      )}
+
+
       </View>
     </View>
   );
@@ -116,7 +177,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: 'stretch', // or 'stretch'
     width: 400,
-    height: 400,
-    marginTop: 100
+    height: 300,
+    marginTop: -150
   },
 });
