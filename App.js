@@ -12,7 +12,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="iCAN" component={HomeScreen} />
         <Stack.Screen
-          name="OTPVerification"
+          name="OTP Verification"
           component={OTPVerificationScreen}
         />
       </Stack.Navigator>

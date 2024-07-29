@@ -8,6 +8,7 @@ import {
   Alert,
   Keyboard,
   TouchableOpacity,
+  Image,
 } from "react-native";
 
 export default function OTPVerificationScreen() {
@@ -91,6 +92,10 @@ export default function OTPVerificationScreen() {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/OTP_Screen.png")}
+        style={styles.backgroundImage}
+      />
       <TouchableOpacity style={styles.button} onPress={generateRandomNumber}>
         <Text style={styles.buttonText}>Generate OTP</Text>
       </TouchableOpacity>
@@ -122,11 +127,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    marginTop: -50,
+  },
+  backgroundImage: {
+    width: 350,
+    height: 350,
+    marginTop: -300,
+    resizeMode: "cover",
   },
   inputContainer: {
     width: "100%",
     alignItems: "center",
+    zIndex: 1,
   },
   textInput: {
     borderWidth: 1,

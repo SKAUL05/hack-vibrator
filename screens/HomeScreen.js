@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.content}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("OTPVerification")}
+          onPress={() => navigation.navigate("OTP Verification")}
         >
           <Text style={styles.buttonText}>Vibration Based OTP</Text>
         </TouchableOpacity>
