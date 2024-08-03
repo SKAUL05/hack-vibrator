@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-export default function HomeScreen({ navigation }) {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
@@ -18,7 +18,7 @@ export default function HomeScreen({ navigation }) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white", // Ensure background color is transparent
+    backgroundColor: "white",
   },
   backgroundImage: {
     width: 400,
@@ -49,3 +49,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+export default HomeScreen;

@@ -11,8 +11,8 @@ import {
   Image,
 } from "react-native";
 
-export default function OTPVerificationScreen() {
-  const [randomNumbers, setRandomNumber] = useState("");
+const OTPVerificationScreen = () => {
+  const [randomNumbers, setRandomNumbers] = useState("");
   const [showTextField, setShowTextField] = useState(false);
   const [textInputValue, setTextInputValue] = useState("");
 
@@ -21,15 +21,16 @@ export default function OTPVerificationScreen() {
     let displayNumber = "";
 
     for (let i = 0; i < 4; i++) {
-      let digit = Math.floor(Math.random() * 5) + 1; // Generates a random number between 1 and 5 (inclusive).
+      let digit = Math.floor(Math.random() * 5) + 1;
       if (digit >= 4) {
         digit = 3;
       }
       randomNumber += digit;
       displayNumber += digit + 1;
     }
-    console.log("OTP : ", displayNumber);
-    setRandomNumber(displayNumber);
+
+    console.log("OTP:", displayNumber);
+    setRandomNumbers(displayNumber);
     setShowTextField(true);
     setTextInputValue("");
     vibrateNumber(randomNumber);
@@ -44,7 +45,6 @@ export default function OTPVerificationScreen() {
 
   const vibrateNumber = (number) => {
     let delay = 0;
-
     number.split("").forEach((digit) => {
       const vibrationCount = parseInt(digit, 10) || 1;
       const duration = 600;
@@ -68,14 +68,7 @@ export default function OTPVerificationScreen() {
       numValue === displayValue
         ? "OTP Verified"
         : "Oops! Wrong Number. Try Again",
-      [
-        {
-          text: "OK",
-          onPress: () => {
-            setTextInputValue(""); // Clear text input here
-          },
-        },
-      ],
+      [{ text: "OK", onPress: () => setTextInputValue("") }],
       { cancelable: false }
     );
   };
@@ -118,7 +111,7 @@ export default function OTPVerificationScreen() {
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -144,7 +137,7 @@ const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
     padding: 10,
     marginBottom: 10,
-    width: "80%", // Adjust the width as needed
+    width: "80%",
     borderRadius: 5,
     fontSize: 16,
   },
@@ -154,7 +147,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#007AFF",
     marginBottom: 10,
-    width: "80%", // Match the width of the textInput
+    width: "80%",
     alignItems: "center",
   },
   buttonText: {
@@ -162,3 +155,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+export default OTPVerificationScreen;
