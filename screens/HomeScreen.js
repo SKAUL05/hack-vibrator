@@ -15,6 +15,12 @@ export default function HomeScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>Vibration Based OTP</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Gesture Recognition")}
+        >
+          <Text style={styles.buttonText}>Gesture Recognition</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
